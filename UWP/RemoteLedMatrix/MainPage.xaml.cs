@@ -342,12 +342,16 @@ namespace RemoteLedMatrix
                 // Crop to a square, based on the smallest side
                 int minEdge = Math.Min(tempWriteableBitmap.PixelWidth, tempWriteableBitmap.PixelHeight);
 
+                int previewToOutput = 90;
                 tempWriteableBitmap = tempWriteableBitmap
                     .Crop(0, 0, minEdge, minEdge)
+                    .Rotate(previewToOutput * 3)
                     .Resize(App.LedMatrix.PixelWidth, App.LedMatrix.PixelHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
 
                 WriteableBitmap previewFrameImageSource =
-                    tempWriteableBitmap.Rotate(90).Resize(
+                    tempWriteableBitmap
+                    .Rotate(previewToOutput)
+                    .Resize(
                         (int)this.postViewbox.Height,
                         (int)this.postViewbox.Width,
                         WriteableBitmapExtensions.Interpolation.NearestNeighbor);
